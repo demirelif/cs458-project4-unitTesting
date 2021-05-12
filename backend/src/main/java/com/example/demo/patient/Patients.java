@@ -25,9 +25,12 @@ public class Patients implements JSONConvertable {
         return instance;
     }
 
-    @GetMapping("/getPatient")
-    public Optional<Patient> getPatient(@RequestParam("email") String email, @RequestParam("password") String password) {
+    public Optional<Patient> getPatient(String email, String password) {
         return patients.stream().filter(e-> e.email.equals(email) && e.password.equals(password)).findFirst();
+    }
+
+    public Optional<Patient> getPatient(String email) {
+        return patients.stream().filter(e-> e.email.equals(email)).findFirst();
     }
 
     @GetMapping("/registerPatient")

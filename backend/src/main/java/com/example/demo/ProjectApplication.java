@@ -61,7 +61,7 @@ public class ProjectApplication {
 	@PostMapping(path= "/sendsymptoms")
 	public String addSymptoms(@RequestBody String symptomData) {
 		JSONObject allData = Objects.requireNonNull(JSONHandler.parse(symptomData));
-		Optional<Patient> patientOptional = Patients.getInstance().getPatient(allData.get("mail").toString());
+		Optional<Patient> patientOptional = Patients.getInstance().getPatient(allData.get("authed_email").toString());
 
 		if (patientOptional.isPresent()) {
 			JSONArray sypmtomsJSON = (JSONArray) allData.get("symptoms");

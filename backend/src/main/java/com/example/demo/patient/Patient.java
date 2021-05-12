@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Patient implements JSONConvertable{
     int age;
@@ -37,7 +38,14 @@ public class Patient implements JSONConvertable{
     }
 
     public boolean addSymptom(DailySymptom symptom){
-        symptoms.add(symptom);
+        Optional<DailySymptom> alreadySymptom = symptoms.stream().filter(checkSymptom -> {
+            return checkSymptom.date.equals(symptom.date);
+        }).findAny();
+
+        if (alreadySymptom.isPresent()) {
+            alreadySymptom.get().merge(symptom);
+        } else symptoms.add(symptom);
+
         return true;
     }
 

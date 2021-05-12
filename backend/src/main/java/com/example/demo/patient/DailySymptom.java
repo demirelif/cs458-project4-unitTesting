@@ -1,20 +1,18 @@
 package com.example.demo.patient;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 public class DailySymptom implements JSONConvertable {
 
     String date;
-    Set<Symptom> symptom;
+    Set<Symptom> symptomSet;
 
-    public DailySymptom(String date, Set<Symptom> symptom) {
+    public DailySymptom(String date, Set<Symptom> symptomSet) {
         this.date = date;
-        this.symptom = symptom;
+        this.symptomSet = symptomSet;
     }
 
     public String checkDailyTrend() {
@@ -24,9 +22,17 @@ public class DailySymptom implements JSONConvertable {
     @Override
     public Object asJSON() {
         JSONObject jso = new JSONObject();
-        jso.put("date", date.toString());
-        jso.put("symptom", symptom.toString());
+        jso.put("date", date);
+        JSONArray symptomsJSON = new JSONArray();
+        symptomSet.forEach(symptom -> {
+            symptomsJSON.add(symptom.toString());
+        });
+
+        jso.put("symptom", symptomsJSON);
         return jso;
     }
 
+    public void merge(DailySymptom symptom) {
+        this.symptomSet.addAll(symptom.symptomSet);
+    }
 }
