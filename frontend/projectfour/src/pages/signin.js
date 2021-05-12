@@ -1,30 +1,57 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../Context'
 import Header from '../components/header.js'
-import { Form, Input, Button, Checkbox, Select, InputNumber } from 'antd';
+import { Form, Input, Button, Modal, Select } from 'antd';
 import 'antd/dist/antd.css';
 import { Redirect } from 'react-router';
+import axios from 'axios'
 const { Option } = Select;
 
 
 const SignIn = () => {
+    const formRef = useRef(null)
+
+    const responseMockup = { auth: true, message: "bla bla" }
+
     const [form] = Form.useForm();
 
     const [context, setContext] = useContext(Context);
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
-        if (values.username === "artun" && values.password === "123123") {
-            setContext({ "authed": true });
-            console.log("WIUU");
-        } else {
-            setContext({ "authed": false });
-        }
-        console.log(context);
+    const [visible, setVisible] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [modalText, setModalText] = useState("");
+
+    const handleOk = () => {
+        setVisible(false);
     };
 
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setVisible(false);
+    };
+
+    const onFinish = (values) => {
+        setVisible(true);
+        setConfirmLoading(true);
+        const fields = formRef.current.getFieldsValue()
+        //async bi request at, bekle
+        axios.get(`http://localhost:8080/api/patient/login?email=${fields.username}&password=${fields.password}`)
+            .then((response) => {
+                console.log(response);
+                if (response.data.auth) {
+                    setContext({ "authed": true });
+                    setModalText("Successfully logged in");
+                } else {
+                    setContext({ "authed": false });
+                    setModalText(response.data.message);
+                }
+                setTimeout(() => {
+                    setConfirmLoading(false);
+                }, 2000)
+            }).catch(function (error) {
+                console.log(error);
+            });
+        //on get response
     };
 
     const layout = {
@@ -34,15 +61,21 @@ const SignIn = () => {
 
     return (
         <div className="signin-wrapper">
+            <Modal title="Basic Modal" visible={visible}
+                onOk={handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancel}
+            >
+                <p>{modalText}</p>
+            </Modal>
             {context.authed &&
-                    <Redirect to="/entersymptoms" />
+                <Redirect to="/entersymptoms" />
             }
             <Form {...layout}
                 name="basic"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-
+                ref={formRef}
             >
                 <Form.Item
                     label="Username"

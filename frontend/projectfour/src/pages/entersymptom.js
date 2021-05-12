@@ -1,12 +1,17 @@
-import React from 'react';
+import React,{useState,useEffect, useRef} from 'react';
 import Header from '../components/header.js'
-import { Form, DatePicker, Select,Button } from 'antd';
+import { Form, DatePicker, Select, Button } from 'antd';
 import 'antd/dist/antd.css';
 const { Option } = Select;
 
 const EnterSymptoms = () => {
     const [form] = Form.useForm();
 
+    const responseMockup = {
+        authed_username: "artun",
+        symptoms: ["muscle", "fever"]
+    }
+    
     const onFinish = (values) => {
         // values["date-picker"]["_d"]
         console.log('Success:', values);
@@ -20,6 +25,11 @@ const EnterSymptoms = () => {
         labelCol: { span: 8 },
         wrapperCol: { span: 8 },
     };
+
+    const getDistricts = (city) => {
+        console.log(city);
+        console.log(form.getFieldsValue())
+    }
 
     return (
         <div className="signin-wrapper">
@@ -40,7 +50,7 @@ const EnterSymptoms = () => {
                     rules={[{ required: true, message: 'Please select your symptoms', type: 'array' }]}
                 >
                     <Select mode="multiple" placeholder="Please select your symptoms">
-                        <Option value="fever">fever</Option>
+                        <Option value="fever" >fever</Option>
                         <Option value="cough">cough</Option>
                         <Option value="muscle">muscle pain</Option>
                         <Option value="nausea">nausea</Option>
@@ -49,7 +59,7 @@ const EnterSymptoms = () => {
                     </Select>
                 </Form.Item>
 
-                <Form.Item  wrapperCol={{ ...layout.wrapperCol, offset: 8 }} >
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }} >
                     <Button className="form-button" type="primary" htmlType="submit">
                         Submit
                     </Button>
