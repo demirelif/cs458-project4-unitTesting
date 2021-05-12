@@ -1,39 +1,33 @@
-import React,{useContext, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Chart } from 'react-charts'
 import './trendchart.css'
 import _ from 'lodash'
 import { Context } from '../Context';
-
+import axios from 'axios';
 
 const TrendPage = () => {
 
   const [context, setContext] = useContext(Context);
-    
+
+  const [graphdata, setgraphdata] = useState([])
+
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("");
 
-  const getData = () => {
-    const data = {authed_user: "artun", symptom_date:[{
-      date:"Tue May 18 2021",
-      symptoms:["red","blue"]
-    },{
-      date:"Wed May 19 2021",
-      symptoms:["red"]
-    },{
-      date:"Mon May 17 2021",
-      symptoms:["red","blue","green"]
-    }]}
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/symptoms?email=${context.authed_email}`).then(response => {
+      setgraphdata( _.chain(response.data).orderBy((a) => new Date(a.date), ['asc']).map(a => { return { x: new Date(a.date).toDateString(), y: a.symptoms.length } }).value());
+    }).catch((e) => {
+      console.log(e);
+    })
+  })
 
-    const symptoms_and_date = data.symptom_date;
-    console.log(_.chain(symptoms_and_date).orderBy((a) => new Date(a.date), ['asc']).map( a => {return { x:new Date(a.date).toDateString(), y: a.symptoms.length}}).value())
-    return _.chain(symptoms_and_date).orderBy((a) => new Date(a.date), ['asc']).map( a => {return { x:new Date(a.date).toDateString(), y: a.symptoms.length}}).value() // or 'desc']
-  }
   const data = React.useMemo(
     () => [
       {
         label: 'Your trends',
-        data: getData()
+        data: graphdata
       }
     ],
     []
@@ -63,7 +57,8 @@ const TrendPage = () => {
           margin: 'auto'
         }}
       >
-        <Chart data={data} series={series} axes={axes} />
+        {graphdata.length === 0 && <p style={{textAlign:'center'}}>No symptom data can be found.</p>}
+        {graphdata.length !== 0 && <> <Chart data={data} series={series} axes={axes} /> <p style={{textAlign:'center',margin:'2rem'}}>Your last day health score is {graphdata[graphdata.length - 1].score}</p></>}
       </div>
     </div>
   )

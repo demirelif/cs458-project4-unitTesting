@@ -28,11 +28,16 @@ public class DailySymptom implements JSONConvertable {
             symptomsJSON.add(symptom.toString());
         });
 
-        jso.put("symptom", symptomsJSON);
+        jso.put("score", calculateScore());
+        jso.put("symptoms", symptomsJSON);
         return jso;
     }
 
-    public void merge(DailySymptom symptom) {
-        this.symptomSet.addAll(symptom.symptomSet);
+    public int calculateScore() {
+        return symptomSet.stream().mapToInt(Symptom::getConditionScore).sum();
+    }
+
+    public void replace(DailySymptom symptom) {
+        this.symptomSet = symptom.symptomSet;
     }
 }

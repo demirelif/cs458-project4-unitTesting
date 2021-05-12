@@ -33,8 +33,11 @@ public class Patients implements JSONConvertable {
         return patients.stream().filter(e-> e.email.equals(email)).findFirst();
     }
 
-    @GetMapping("/registerPatient")
-    public boolean registerPatient(@RequestParam("patient") Patient patient) {
+    public boolean registerPatient(Patient patient) {
+        if (isEmailTaken(patient.getEmail())) {
+            return false;
+        }
+
         if (new PatientValidity(patient).checkPatientValidity()) {
             patients.add(patient);
             return true;
@@ -42,8 +45,7 @@ public class Patients implements JSONConvertable {
         return false;
     }
 
-    @GetMapping("/isTaken")
-    public boolean isEmailTaken(@RequestParam("email") String email){
+    public boolean isEmailTaken(String email){
         Optional<Patient> p = patients.stream().filter(e-> e.email.equals(email)).findFirst();
         if(p.isPresent()){
             if(! p.get().email.equals("")){
@@ -52,17 +54,6 @@ public class Patients implements JSONConvertable {
         }
         return false;
     }
-
-    @GetMapping("/login")
-    public boolean isLoginCorrect(@RequestParam("email") String email, @RequestParam("password") String password) {
-        Optional<Patient> p = patients.stream().filter(e-> e.email.equals(email)).findFirst();
-        if(p.isEmpty()){
-            return false;
-        }
-        String storedPassword = p.get().password;
-        return password.equals(storedPassword);
-    }
-
 
     @Override
     public String toString() {
