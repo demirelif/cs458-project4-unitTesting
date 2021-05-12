@@ -37,7 +37,24 @@ class PatientsTest {
 
     @Test
     void getPatient() {
-
+        List<DailySymptom> symptoms;
+        symptoms = new ArrayList<>();
+        DailySymptom ds = new DailySymptom("04.09.2021", Set.of(Symptom.FEVER));
+        symptoms.add(ds);
+        JSONObject patientJSON = new JSONObject();
+        patientJSON.put("name", "utku");
+        patientJSON.put("age", 22);
+        patientJSON.put("surname", "nn");
+        patientJSON.put("email", "utku@mail.com");
+        patientJSON.put("password", "12345");
+        patientJSON.put("gender", "m");
+        Patient p = new Patient(patientJSON);
+        patients = new Patients();
+        patients.registerPatient(p);
+        patients.getPatient("utku@mail.com");
+        assertEquals(true, true);
+        patients.getPatient("utku@mail.com", "123");
+        assertEquals(false, false);
     }
 
     @Test
@@ -52,7 +69,6 @@ class PatientsTest {
         patientJSON.put("surname", "nn");
         patientJSON.put("email", "elifd@mail.com");
         patientJSON.put("password", "1234");
-        patientJSON.put("gender", "f");
         patientJSON.put("gender", "f");
         Patient p = new Patient(patientJSON);
         patients = new Patients();
