@@ -31,11 +31,12 @@ const SignIn = () => {
     };
 
     const onFinish = (values) => {
+        setModalText("")
         setVisible(true);
         setConfirmLoading(true);
         const fields = formRef.current.getFieldsValue()
         //async bi request at, bekle
-        axios.get(`http://localhost:8080/api/patient/login?email=${fields.username}&password=${fields.password}`)
+        axios.get(`http://localhost:8080/api/patient/login?email=${fields.email}&password=${fields.password}`)
             .then((response) => {
                 console.log(response);
                 if (response.data.auth) {
@@ -45,11 +46,11 @@ const SignIn = () => {
                     setContext({ "authed": false });
                     setModalText(response.data.message);
                 }
-                setTimeout(() => {
-                    setConfirmLoading(false);
-                }, 2000)
+                setConfirmLoading(false);
             }).catch(function (error) {
                 console.log(error);
+                setConfirmLoading(false);
+                setModalText("Connection Error")
             });
         //on get response
     };
@@ -78,9 +79,9 @@ const SignIn = () => {
                 ref={formRef}
             >
                 <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    label="Email"
+                    name="email"
+                    rules={[{ type:'email', required: true, message: 'Please input your username!' }]}
                 >
                     <Input />
                 </Form.Item>
