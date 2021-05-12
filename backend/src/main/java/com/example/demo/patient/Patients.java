@@ -11,7 +11,7 @@ public class Patients implements JSONConvertable {
     static Patients instance;
     public List<Patient> patients;
 
-    private Patients() {
+    public Patients() {
         patients = new ArrayList<>();
     }
 
