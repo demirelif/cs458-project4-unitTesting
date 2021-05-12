@@ -1,5 +1,6 @@
 package com.example.demo.patient;
 
+import com.example.demo.utilities.PatientValidity;
 import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
@@ -25,8 +26,12 @@ public class Patients implements JSONConvertable {
         return patients.stream().filter(e-> e.email.equals(email) && e.password.equals(password)).findFirst();
     }
 
-    public void addPatient(Patient patient) {
-        patients.add(patient);
+    public boolean registerPatient(Patient patient) {
+        if (new PatientValidity(patient).checkPatientValidity()) {
+            patients.add(patient);
+            return true;
+        }
+        return false;
     }
 
     @Override

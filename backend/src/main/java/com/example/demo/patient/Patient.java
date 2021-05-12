@@ -12,14 +12,18 @@ public class Patient implements JSONConvertable{
     String name;
     String email;
     String password;
+    String surname;
+    String gender;
     List<DailySymptom> symptoms;
 
     public Patient(JSONObject patientJSON) {
-        age = Integer.parseInt(patientJSON.get("age").toString());
-        name = patientJSON.get("name").toString();
-        email = patientJSON.get("email").toString();
-        password = patientJSON.get("password").toString();
-        symptoms = new ArrayList<>();
+        this.age = Integer.parseInt(patientJSON.get("age").toString());
+        this.name = patientJSON.get("name").toString();
+        this.surname = patientJSON.get("surname").toString();
+        this.email = patientJSON.get("email").toString();
+        this.password = patientJSON.get("password").toString();
+        this.gender = patientJSON.get("gender").toString();
+        this.symptoms = new ArrayList<>();
     }
 
     @Override
@@ -36,6 +40,8 @@ public class Patient implements JSONConvertable{
         JSONObject jso = new JSONObject();
         jso.put("name", name);
         jso.put("age", age);
+        jso.put("surname", surname);
+        jso.put("gender", gender);
         jso.put("email", email);
         jso.put("password", password);
         JSONArray symptomsJSON = new JSONArray();
@@ -45,5 +51,53 @@ public class Patient implements JSONConvertable{
         jso.put("symptoms", symptomsJSON);
 
         return jso;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

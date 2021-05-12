@@ -22,11 +22,11 @@ public class JSONHandler {
 
     public static void readDataJSON() {
 
-        File dataFile = new File( "D:\\CS\\Current\\springTest\\demo\\src\\main\\java\\com\\example\\demo\\jsonhandling\\data.json");
+        File dataFile = new File( "D:\\CS\\Current\\cs458-project4-unitTesting\\backend\\src\\main\\java\\com\\example\\demo\\jsonhandling\\data.json");
 
         JSONArray patientsJSON = parseArray(readFile(dataFile));
         patientsJSON.forEach(patientJSON -> {
-            Patients.getInstance().addPatient(new Patient((JSONObject) patientJSON));
+            Patients.getInstance().patients.add(new Patient((JSONObject) patientJSON));
         });
     }
 
