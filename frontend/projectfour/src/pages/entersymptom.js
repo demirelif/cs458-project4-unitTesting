@@ -1,24 +1,39 @@
-import React,{useState,useEffect, useRef} from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import Header from '../components/header.js'
 import { Form, DatePicker, Select, Button } from 'antd';
 import 'antd/dist/antd.css';
+import axios from 'axios';
+import { Context } from '../Context';
+import _ from 'lodash';
 const { Option } = Select;
 
 const EnterSymptoms = () => {
+    const formRef = useRef(null)
     const [form] = Form.useForm();
 
-    const responseMockup = {
-        authed_username: "artun",
-        symptoms: ["muscle", "fever"]
-    }
-    
-    const onFinish = (values) => {
-        // values["date-picker"]["_d"]
-        console.log('Success:', values);
-    };
+    const [context, setContext] = useContext(Context);
 
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const [visible, setVisible] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [modalText, setModalText] = useState("");
+
+    const onFinish = (values) => {
+        setModalText("")
+        setVisible(true);
+        setConfirmLoading(true);
+        const fields = formRef.current.getFieldsValue()
+        console.log({symptoms: _.map(fields['select-multiple'], (a)=>{return a.toUpperCase()})})
+        //async bi request at, bekle
+
+        axios.post(`http://localhost:8080/api/`, {
+            authed_email: context.authed_email,
+            date: new Date(fields['date-picker']['_d']).toLocaleDateString(),
+            symptoms: _.map(fields['select-multiple'], (a)=>{return a.toUpperCase();})
+        }).then((response) => {
+            setConfirmLoading(false);
+        }).catch(function (error) {
+            setConfirmLoading(false);
+        });
     };
 
     const layout = {
@@ -26,19 +41,13 @@ const EnterSymptoms = () => {
         wrapperCol: { span: 8 },
     };
 
-    const getDistricts = (city) => {
-        console.log(city);
-        console.log(form.getFieldsValue())
-    }
-
     return (
         <div className="signin-wrapper">
             <Form {...layout}
                 name="basic"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-
+                ref={formRef}
             >
                 <Form.Item name="date-picker" label="DatePicker">
                     <DatePicker format="DD-MM-YYYY" />
@@ -52,7 +61,7 @@ const EnterSymptoms = () => {
                     <Select mode="multiple" placeholder="Please select your symptoms">
                         <Option value="fever" >fever</Option>
                         <Option value="cough">cough</Option>
-                        <Option value="muscle">muscle pain</Option>
+                        <Option value="musclepain">musclepain</Option>
                         <Option value="nausea">nausea</Option>
                         <Option value="vomiting">vomiting</Option>
                         <Option value="diarrhea">diarrhea</Option>
