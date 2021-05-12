@@ -1,9 +1,12 @@
-import React from 'react';
-import {NavLink} from 'react-router-dom';
+import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Context } from '../Context'
 import './header.css'
 
 const MainHeader = () => {
-    return (<ul className="nav-links">
+  const [context, setContext] = useContext(Context);
+
+  return (<ul className="nav-links">
     <li>
       <NavLink to="/" exact>Home</NavLink>
     </li>
@@ -13,12 +16,16 @@ const MainHeader = () => {
     <li>
       <NavLink to="/signup">Sign Up</NavLink>
     </li>
-    <li>
-      <NavLink to="/entersymptoms">Enter Symptoms</NavLink>
-    </li>
-    <li>
-      <NavLink to="/seetrends">See Trends</NavLink>
-    </li>
+    {context.authed &&
+      <>
+        <li>
+          <NavLink to="/entersymptoms">Enter Symptoms</NavLink>
+        </li>
+        <li>
+          <NavLink to="/seetrends">See Trends</NavLink>
+        </li>
+      </>
+    }
   </ul>);
 };
 

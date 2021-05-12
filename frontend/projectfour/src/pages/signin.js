@@ -1,14 +1,24 @@
-import React from 'react';
+import React,{useContext} from 'react';
+import {Context} from '../Context'
 import Header from '../components/header.js'
 import { Form, Input, Button, Checkbox, Select, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 const { Option } = Select;
 
+
 const SignIn = () => {
     const [form] = Form.useForm();
+    
+    const [context, setContext] = useContext(Context);
 
     const onFinish = (values) => {
         console.log('Success:', values);
+        if(values.username === "artun" && values.password === "123123"){
+            setContext({"authed":true})
+        }else{
+            setContext({"authed":false})
+        }
+        console.log(context);
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -45,7 +55,7 @@ const SignIn = () => {
                     <Input.Password />
                 </Form.Item>
 
-                <Form.Item  wrapperCol={{ ...layout.wrapperCol, offset: 8 }} >
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }} >
                     <Button className="form-button" type="primary" htmlType="submit">
                         Submit
                     </Button>
