@@ -35,7 +35,6 @@ class PatientValidityTest {
         patientJSON.put("email", "elifd@mail.com");
         patientJSON.put("password", "1234");
         patientJSON.put("gender", "f");
-        patientJSON.put("gender", "f");
         Patient p = new Patient(patientJSON);
         patientValidity = new PatientValidity(p);
         patientValidity.checkPatientValidity();
