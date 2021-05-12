@@ -1,15 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Context } from '../Context'
 import Header from '../components/header.js'
 import { Form, Input, Button, Modal, Select } from 'antd';
 import 'antd/dist/antd.css';
 import { Redirect } from 'react-router';
+import axios from 'axios'
 const { Option } = Select;
 
 
 const SignIn = () => {
+    const formRef = useRef(null)
 
-    const responseMockup = {auth:true, message: "bla bla"}
+    const responseMockup = { auth: true, message: "bla bla" }
 
     const [form] = Form.useForm();
 
@@ -31,17 +33,25 @@ const SignIn = () => {
     const onFinish = (values) => {
         setVisible(true);
         setConfirmLoading(true);
+        const fields = formRef.current.getFieldsValue()
         //async bi request at, bekle
+        axios.get(`http://localhost:8080/api/patient/login?email=${fields.username}&password=${fields.password}`)
+            .then((response) => {
+                console.log(response);
+                if (response.data.auth) {
+                    setContext({ "authed": true });
+                    setModalText("Successfully logged in");
+                } else {
+                    setContext({ "authed": false });
+                    setModalText(response.data.message);
+                }
+                setTimeout(() => {
+                    setConfirmLoading(false);
+                }, 2000)
+            }).catch(function (error) {
+                console.log(error);
+            });
         //on get response
-        if (responseMockup.auth) {
-            setContext({ "authed": true });
-            setModalText("Successfully logged in");
-        } else {
-            setContext({ "authed": false });
-            setModalText(responseMockup.message);
-        }
-        setConfirmLoading(false);
-        console.log(context);
     };
 
     const layout = {
@@ -55,7 +65,7 @@ const SignIn = () => {
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
-                tex>
+            >
                 <p>{modalText}</p>
             </Modal>
             {context.authed &&
@@ -65,6 +75,7 @@ const SignIn = () => {
                 name="basic"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
+                ref={formRef}
             >
                 <Form.Item
                     label="Username"

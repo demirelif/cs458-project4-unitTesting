@@ -1,22 +1,16 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, useRef} from 'react';
 import Header from '../components/header.js'
 import { Form, DatePicker, Select, Button } from 'antd';
 import 'antd/dist/antd.css';
 const { Option } = Select;
 
 const EnterSymptoms = () => {
-    const [selected, setSelected] = useState([])
     const [form] = Form.useForm();
 
     const responseMockup = {
         authed_username: "artun",
         symptoms: ["muscle", "fever"]
     }
-
-    useEffect(()=>{
-        console.log(selected)
-    },[selected])
-
     
     const onFinish = (values) => {
         // values["date-picker"]["_d"]
@@ -32,8 +26,9 @@ const EnterSymptoms = () => {
         wrapperCol: { span: 8 },
     };
 
-    const newSelect = () => {
-        console.log(selected);
+    const getDistricts = (city) => {
+        console.log(city);
+        console.log(form.getFieldsValue())
     }
 
     return (
