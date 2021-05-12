@@ -1,9 +1,19 @@
-import React from 'react'
+import React,{useContext, useState} from 'react'
 import { Chart } from 'react-charts'
 import './trendchart.css'
 import _ from 'lodash'
+import { Context } from '../Context';
+
 
 const TrendPage = () => {
+
+  
+  const [context, setContext] = useContext(Context);
+    
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState("");
+  
 
 
   const getData = () => {

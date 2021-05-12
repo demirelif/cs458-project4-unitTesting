@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PatientValidity {
-    Patient patient;
+    static Patient patient;
 
     public PatientValidity(Patient patient) {
         this.patient = patient;
