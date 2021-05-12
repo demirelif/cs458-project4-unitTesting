@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +44,7 @@ class PatientsTest {
     void registerPatient() {
         List<DailySymptom> symptoms;
         symptoms = new ArrayList<>();
-        DailySymptom ds = new DailySymptom(LocalDate.now(), Symptom.FEVER);
+        DailySymptom ds = new DailySymptom("04.09.2020", Set.of(Symptom.FEVER));
         symptoms.add(ds);
         JSONObject patientJSON = new JSONObject();
         patientJSON.put("name", "elif");
