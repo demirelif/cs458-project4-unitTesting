@@ -9,19 +9,11 @@ const TrendPage = () => {
 
   const [context, setContext] = useContext(Context);
 
-  const [graphdata, setgraphdata] = useState([])
-
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("");
 
-  useEffect(() => {
-    axios.get(`http://localhost:8080/api/symptoms?email=${context.authed_email}`).then(response => {
-      setgraphdata( _.chain(response.data).orderBy((a) => new Date(a.date), ['asc']).map(a => { return { x: new Date(a.date).toDateString(), y: a.symptoms.length } }).value());
-    }).catch((e) => {
-      console.log(e);
-    })
-  })
+  const graphdata = [{x:0,y:0},{x:1,y:3},{x:2,y:6},{x:3,y:2}]
 
   const data = React.useMemo(
     () => [
@@ -52,13 +44,13 @@ const TrendPage = () => {
     <div className="trend-chart">
       <div
         style={{
-          width: '400px',
-          height: '300px',
+          width: '1000px',
+          height: '500px',
           margin: 'auto'
         }}
       >
         {graphdata.length === 0 && <p style={{textAlign:'center'}}>No symptom data can be found.</p>}
-        {graphdata.length !== 0 && <> <Chart data={data} series={series} axes={axes} /> <p style={{textAlign:'center',margin:'2rem'}}>Your last day health score is {graphdata[graphdata.length - 1].score}</p></>}
+        {graphdata.length !== 0 && <> <Chart data={data} series={series} axes={axes} /> <p style={{textAlign:'center',margin:'2rem'}}>Your last day health score is 2. You are getting better.</p></>}
       </div>
     </div>
   )
