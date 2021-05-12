@@ -26,6 +26,22 @@ public class Patient implements JSONConvertable{
         this.symptoms = new ArrayList<>();
     }
 
+    public void addSymptom(DailySymptom symptom){
+        symptoms.add(symptom);
+    }
+
+    public void removeSymptom(DailySymptom symptom){
+        symptoms.remove(symptom);
+    }
+
+    public List<DailySymptom> getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(List<DailySymptom> symptoms) {
+        this.symptoms = symptoms;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
