@@ -58,6 +58,24 @@ public class ProjectApplication {
 		// ToDO Save
 	}
 
+	@GetMapping(path= "/symptoms")
+	@ResponseBody
+	public String getSymptoms(@RequestParam String email) {
+		Optional<Patient> patientOptional = Patients.getInstance().getPatient(email);
+
+		if(patientOptional.isPresent()) {
+			JSONArray jsa = new JSONArray();
+			patientOptional.get().getSymptoms().forEach(sypmtom -> {
+				jsa.add(sypmtom.asJSON());
+			});
+
+			return jsa.toString();
+
+		} else {
+			throw new IllegalStateException("User Does Not Exist");
+		}
+	}
+
 	@PostMapping(path= "/sendsymptoms")
 	public String addSymptoms(@RequestBody String symptomData) {
 		JSONObject allData = Objects.requireNonNull(JSONHandler.parse(symptomData));
