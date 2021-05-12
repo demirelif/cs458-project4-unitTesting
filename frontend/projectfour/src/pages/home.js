@@ -1,9 +1,9 @@
 import React from 'react';
-
+import './home.css'
   
 const Home = () => {
     return(
-      <p>THIS IS THE MAIN PAGE</p>
+      <h1 className="welcome-text">Welcome to the website of CS458 - Project 4</h1>
     )
 }
 

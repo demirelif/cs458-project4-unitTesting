@@ -1,6 +1,7 @@
 import React from 'react'
 import { Chart } from 'react-charts'
- 
+import './trendchart.css'
+
 const TrendPage = () => {
   const data = React.useMemo(
     () => [
@@ -11,7 +12,7 @@ const TrendPage = () => {
     ],
     []
   )
- 
+
   const axes = React.useMemo(
     () => [
       { primary: true, type: 'ordinal', position: 'bottom' },
@@ -26,20 +27,18 @@ const TrendPage = () => {
     }),
     []
   )
- 
+
   return (
-      <div>
-      <p>SDsaasd</p>
-    // A react-chart hyper-responsively and continuously fills the available
-    // space of its parent element automatically
-    <div
-      style={{
-        width: '400px',
-        height: '300px'
-      }}
-    >
-      <Chart data={data} series={series} axes={axes} />
-    </div>
+    <div className="trend-chart">
+      <div
+        style={{
+          width: '400px',
+          height: '300px',
+          margin: 'auto'
+        }}
+      >
+        <Chart data={data} series={series} axes={axes} />
+      </div>
     </div>
   )
 }
