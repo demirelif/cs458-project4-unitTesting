@@ -1,0 +1,19 @@
+{
+  "name": "cs458-project4-unittesting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demirelif/cs458-project4-unitTesting.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/demirelif/cs458-project4-unitTesting/issues"
+  },
+  "homepage": "https://github.com/demirelif/cs458-project4-unitTesting#readme"
+}
