@@ -7,24 +7,21 @@ import { Context } from '../Context';
 
 const TrendPage = () => {
 
-  
   const [context, setContext] = useContext(Context);
     
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("");
-  
-
 
   const getData = () => {
     const data = {authed_user: "artun", symptom_date:[{
-      date:"Thu May 13 2021 14:31:16 GMT+0300 (GMT+03:00)",
+      date:"Tue May 18 2021",
       symptoms:["red","blue"]
     },{
-      date:"Sun May 09 2021 14:31:16 GMT+0300 (GMT+03:00)",
+      date:"Wed May 19 2021",
       symptoms:["red"]
     },{
-      date:"Thu May 20 2021 14:31:16 GMT+0300 (GMT+03:00)",
+      date:"Mon May 17 2021",
       symptoms:["red","blue","green"]
     }]}
 
