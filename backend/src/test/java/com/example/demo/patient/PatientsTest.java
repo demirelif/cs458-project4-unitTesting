@@ -42,19 +42,19 @@ class PatientsTest {
         DailySymptom ds = new DailySymptom("04.09.2021", Set.of(Symptom.FEVER));
         symptoms.add(ds);
         JSONObject patientJSON = new JSONObject();
-        patientJSON.put("name", "utku");
-        patientJSON.put("age", 22);
-        patientJSON.put("surname", "nn");
-        patientJSON.put("email", "utku@mail.com");
-        patientJSON.put("password", "12345");
-        patientJSON.put("gender", "m");
+        patientJSON.put("name", "alsgai");
+        patientJSON.put("age", 5);
+        patientJSON.put("surname", "ali");
+        patientJSON.put("email", "curaartun@gmail.com");
+        patientJSON.put("password", "11");
+        patientJSON.put("gender", "male");
         Patient p = new Patient(patientJSON);
         patients = new Patients();
         patients.registerPatient(p);
-        patients.getPatient("utku@mail.com");
-        assertEquals(true, true);
-        patients.getPatient("utku@mail.com", "123");
-        assertEquals(false, false);
+        patients.getPatient("curaartun@gmail.com");
+        assertEquals(p, patients.getPatient("curaartun@gmail.com").get());
+        //patients.getPatient("utku@mail.com", "123");
+        assertEquals(p, patients.getPatient("curaartun@gmail.com", "11").get());
     }
 
     @Test
@@ -72,15 +72,15 @@ class PatientsTest {
         patientJSON.put("gender", "f");
         Patient p = new Patient(patientJSON);
         patients = new Patients();
-        patients.registerPatient(p);
-        assert(true);
+        //patients.registerPatient(p);
+        assertEquals(true, patients.registerPatient(p));
     }
 
     @Test
     void isEmailTaken() {
         patients = new Patients();
-        patients.isEmailTaken("elifd@mail.com");
-        assert(true);
+      //  patients.isEmailTaken("elifd@mail.com");
+        assertEquals(false, patients.isEmailTaken("elifd@mail.com"));
     }
 
     @Test
@@ -97,7 +97,7 @@ class PatientsTest {
         patients = new Patients();
         patients.registerPatient(p);
         patients = new Patients();
-        patients.isLoginCorrect("dd@mail.com","1234");
-        assertEquals(false, false);
+      //  patients.isLoginCorrect("dd@mail.com","1234");
+        assertEquals(false, patients.isLoginCorrect("dd@mail.com","1234"));
     }
 }

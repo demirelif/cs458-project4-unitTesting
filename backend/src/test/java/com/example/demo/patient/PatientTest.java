@@ -25,7 +25,6 @@ class PatientTest {
         patientJSON.put("email", "elifd@mail.com");
         patientJSON.put("password", "1234");
         patientJSON.put("gender", "f");
-        patientJSON.put("gender", "f");
         patient = new Patient(patientJSON);
         Set<Symptom> symptoms = new HashSet<>();
         symptoms.add(Symptom.FEVER);
