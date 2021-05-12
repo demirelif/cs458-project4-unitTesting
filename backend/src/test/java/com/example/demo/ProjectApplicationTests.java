@@ -14,10 +14,4 @@ class ProjectApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
-	@Test
-	void abcTest() {
-		assertEquals(5,6);
-	}
-
 }
