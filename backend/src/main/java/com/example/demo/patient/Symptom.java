@@ -5,9 +5,12 @@ public enum Symptom {
 
     @Override
     public String toString() {
-        return switch (this) {
-            case FEVER -> "Fever";
-            case COUGH -> "Cough";
-        };
+        switch (this) {
+            case FEVER:
+                return "Fever";
+            case COUGH:
+                return "Cough";
+        }
+        return "";
     }
 }
