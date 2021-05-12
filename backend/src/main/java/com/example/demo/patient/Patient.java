@@ -1,6 +1,5 @@
 package com.example.demo.patient;
 
-import com.example.demo.jsonhandling.JSONHandler;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -43,7 +42,7 @@ public class Patient implements JSONConvertable{
         }).findAny();
 
         if (alreadySymptom.isPresent()) {
-            alreadySymptom.get().merge(symptom);
+            alreadySymptom.get().replace(symptom);
         } else symptoms.add(symptom);
 
         return true;

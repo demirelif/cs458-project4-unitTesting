@@ -32,7 +32,7 @@ public class DailySymptom implements JSONConvertable {
         return jso;
     }
 
-    public void merge(DailySymptom symptom) {
-        this.symptomSet.addAll(symptom.symptomSet);
+    public void replace(DailySymptom symptom) {
+        this.symptomSet = symptom.symptomSet;
     }
 }
