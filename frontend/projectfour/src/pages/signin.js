@@ -40,10 +40,10 @@ const SignIn = () => {
             .then((response) => {
                 console.log(response);
                 if (response.data.auth) {
-                    setContext({ "authed": true });
+                    setContext({ "authed": true, "authed_email":fields.email });
                     setModalText("Successfully logged in");
                 } else {
-                    setContext({ "authed": false });
+                    setContext({ "authed": false, "authed_email":null });
                     setModalText(response.data.message);
                 }
                 setConfirmLoading(false);
