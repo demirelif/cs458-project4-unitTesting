@@ -2,10 +2,13 @@ package com.example.demo.patient;
 
 import com.example.demo.utilities.PatientValidity;
 import org.json.simple.JSONArray;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 public class Patients implements JSONConvertable {
     static Patients instance;
@@ -22,17 +25,41 @@ public class Patients implements JSONConvertable {
         return instance;
     }
 
-    public Optional<Patient> getPatient(String email, String password) {
+    @GetMapping("/getPatient")
+    public Optional<Patient> getPatient(@RequestParam("email") String email, @RequestParam("password") String password) {
         return patients.stream().filter(e-> e.email.equals(email) && e.password.equals(password)).findFirst();
     }
 
-    public boolean registerPatient(Patient patient) {
+    @GetMapping("/registerPatient")
+    public boolean registerPatient(@RequestParam("patient") Patient patient) {
         if (new PatientValidity(patient).checkPatientValidity()) {
             patients.add(patient);
             return true;
         }
         return false;
     }
+
+    @GetMapping("/isTaken")
+    public boolean isEmailTaken(@RequestParam("email") String email){
+        Optional<Patient> p = patients.stream().filter(e-> e.email.equals(email)).findFirst();
+        if(p.isPresent()){
+            if(! p.get().email.equals("")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @GetMapping("/login")
+    public boolean isLoginCorrect(@RequestParam("email") String email, @RequestParam("password") String password) {
+        Optional<Patient> p = patients.stream().filter(e-> e.email.equals(email)).findFirst();
+        if(p.isEmpty()){
+            return false;
+        }
+        String storedPassword = p.get().password;
+        return password.equals(storedPassword);
+    }
+
 
     @Override
     public String toString() {

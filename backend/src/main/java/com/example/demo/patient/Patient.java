@@ -26,6 +26,16 @@ public class Patient implements JSONConvertable{
         this.symptoms = new ArrayList<>();
     }
 
+    public Patient(int age, String name, String email, String password, String surname, String gender, List<DailySymptom> symptoms) {
+        this.age = age;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.surname = surname;
+        this.gender = gender;
+        this.symptoms = symptoms;
+    }
+
     public void addSymptom(DailySymptom symptom){
         symptoms.add(symptom);
     }
