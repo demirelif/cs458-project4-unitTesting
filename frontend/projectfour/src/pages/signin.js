@@ -62,7 +62,7 @@ const SignIn = () => {
 
     return (
         <div className="signin-wrapper">
-            <Modal title="Basic Modal" visible={visible}
+            <Modal title="Sign in" visible={visible}
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
