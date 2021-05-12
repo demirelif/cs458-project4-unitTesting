@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState, setContext} from 'react';
 import Header from '../components/header.js'
-import { Form, Input, Button, Checkbox, Select, InputNumber } from 'antd';
+import { Form, Input, Button, Modal, Select, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 import './signup.css'
 const { Option } = Select;
@@ -8,25 +8,35 @@ const { Option } = Select;
 const SignUp = () => {
     const [form] = Form.useForm();
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const responseMockup = {signed:false,
+        message: "Hatanin sebebi maildir"} 
+       
+    const [visible, setVisible] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [modalText, setModalText] = useState("");
+
+    const handleOk = () => {
+        setVisible(false);
     };
 
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+    const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setVisible(false);
+    };
+
+    const onFinish = (values) => {
+        setVisible(true);
+        setConfirmLoading(true);
+        //async bi request at, bekle
+        //on get response
+        if (responseMockup.signed) {
+            setModalText("Successfully signed in");
+        } else {
+            setModalText(responseMockup.message);
+        }
     };
 
     const onGenderChange = (value) => {
-        switch (value) {
-            case 'male':
-                form.setFieldsValue({ note: 'Hi, man!' });
-                return;
-            case 'female':
-                form.setFieldsValue({ note: 'Hi, lady!' });
-                return;
-            case 'other':
-                form.setFieldsValue({ note: 'Hi there!' });
-        }
     };
 
 
@@ -37,11 +47,17 @@ const SignUp = () => {
 
     return (
         <div className="signup-wrapper">
+             <Modal title="Basic Modal" visible={visible}
+                onOk={handleOk}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancel}
+                tex>
+                <p>{modalText}</p>
+            </Modal>
             <Form {...layout}
                 name="basic"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
 
             >
                  <Form.Item
