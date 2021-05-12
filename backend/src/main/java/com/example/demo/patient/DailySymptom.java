@@ -15,10 +15,6 @@ public class DailySymptom implements JSONConvertable {
         this.symptomSet = symptomSet;
     }
 
-    public String checkDailyTrend() {
-        return "Well";
-    }
-
     @Override
     public Object asJSON() {
         JSONObject jso = new JSONObject();
@@ -27,10 +23,13 @@ public class DailySymptom implements JSONConvertable {
         symptomSet.forEach(symptom -> {
             symptomsJSON.add(symptom.toString());
         });
-
         jso.put("score", calculateScore());
         jso.put("symptoms", symptomsJSON);
         return jso;
+    }
+
+    public Set<Symptom> getSymptomSet(){
+        return symptomSet;
     }
 
     public int calculateScore() {
