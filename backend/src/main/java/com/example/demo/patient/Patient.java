@@ -56,10 +56,6 @@ public class Patient implements JSONConvertable{
         return symptoms;
     }
 
-    public void setSymptoms(List<DailySymptom> symptoms) {
-        this.symptoms = symptoms;
-    }
-
     @Override
     public String toString() {
         return "Patient{" +
