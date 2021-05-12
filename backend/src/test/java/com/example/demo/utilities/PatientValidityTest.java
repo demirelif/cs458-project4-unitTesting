@@ -23,14 +23,8 @@ import static org.mockito.Mockito.when;
 
 class PatientValidityTest {
 
-    @LocalServerPort
-    private int port = 8080;
-
     @Mock
     PatientValidity patientValidity;
-
-    @Autowired
-    private MockMvc mvc;
 
     @Test
     void checkPatientValidity() {

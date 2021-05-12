@@ -1,8 +1,10 @@
 package com.example.demo.patient;
 
 import com.example.demo.jsonhandling.JSONHandler;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,6 +26,9 @@ class PatientsTest {
     @Autowired
     private MockMvc mvc;
 
+    @Mock
+    Patients patients;
+
     @Test
     void getInstance() {
         assertNotNull(Patients.getInstance());
@@ -40,9 +45,18 @@ class PatientsTest {
         symptoms = new ArrayList<>();
         DailySymptom ds = new DailySymptom(LocalDate.now(), Symptom.FEVER);
         symptoms.add(ds);
-        Patient p = new Patient(13, "utku", "utku@email.com", "1234", "rocker", "male", symptoms);
-        //RequestBuilder request = MockMvcRequestBuilders.get("/registerPatient").param("patient", p);
-
+        JSONObject patientJSON = new JSONObject();
+        patientJSON.put("name", "elif");
+        patientJSON.put("age", 22);
+        patientJSON.put("surname", "nn");
+        patientJSON.put("email", "elifd@mail.com");
+        patientJSON.put("password", "1234");
+        patientJSON.put("gender", "f");
+        patientJSON.put("gender", "f");
+        Patient p = new Patient(patientJSON);
+        patients = new Patients();
+        patients.registerPatient(p);
+        assert(true);
     }
 
     @Test
