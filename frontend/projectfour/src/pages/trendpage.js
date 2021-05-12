@@ -58,7 +58,7 @@ const TrendPage = () => {
         }}
       >
         {graphdata.length === 0 && <p style={{textAlign:'center'}}>No symptom data can be found.</p>}
-        {graphdata.length !== 0 && <Chart data={data} series={series} axes={axes} />}
+        {graphdata.length !== 0 && <> <Chart data={data} series={series} axes={axes} /> <p style={{textAlign:'center',margin:'2rem'}}>Your last day health score is {graphdata[graphdata.length - 1].score}</p></>}
       </div>
     </div>
   )
