@@ -77,10 +77,15 @@ class PatientTest {
         patientJSON.put("password", "1234");
         patientJSON.put("gender", "f");
         patient = new Patient(patientJSON);
+
         Set<Symptom> symptoms = new HashSet<>();
         symptoms.add(Symptom.FEVER);
         symptoms.add(Symptom.NAUSEA);
+        symptoms.add(Symptom.MUSCLEPAIN);
         patient.addSymptom(new DailySymptom("03.04.2021", symptoms));
-        assertEquals(true,patient.addSymptom(new DailySymptom("03.04.2021", symptoms)));
+        patient.addSymptom(new DailySymptom("04.04.2021", symptoms));
+        patient.addSymptom(new DailySymptom("05.04.2021", symptoms));
+        //ssertEquals(true,patient.addSymptom(new DailySymptom("03.04.2021", symptoms)));
+        assertEquals("Risky", patient.checkDailyTrend() );
     }
 }
