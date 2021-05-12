@@ -25,7 +25,7 @@ const EnterSymptoms = () => {
         console.log({symptoms: _.map(fields['select-multiple'], (a)=>{return a.toUpperCase()})})
         //async bi request at, bekle
 
-        axios.post(`http://localhost:8080/api/`, {
+        axios.post(`http://localhost:8080/api/patient/sendsymptoms`, {
             authed_email: context.authed_email,
             date: new Date(fields['date-picker']['_d']).toLocaleDateString(),
             symptoms: _.map(fields['select-multiple'], (a)=>{return a.toUpperCase();})
