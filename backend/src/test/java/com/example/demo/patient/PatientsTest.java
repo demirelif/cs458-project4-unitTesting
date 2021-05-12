@@ -61,17 +61,26 @@ class PatientsTest {
 
     @Test
     void isEmailTaken() {
-        RequestBuilder request = MockMvcRequestBuilders.get("/isTaken").param("email", "utku@gmail.com");
-        try {
-            MvcResult result = mvc.perform(request).andReturn();
-            System.out.println(result.getResponse().getContentAsString());
-            assertEquals("false", result.getResponse().getContentAsString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        patients = new Patients();
+        patients.isEmailTaken("elifd@mail.com");
+        assert(true);
     }
 
     @Test
     void isLoginCorrect() {
+        JSONObject patientJSON = new JSONObject();
+        patientJSON.put("name", "elif");
+        patientJSON.put("age", 22);
+        patientJSON.put("surname", "nn");
+        patientJSON.put("email", "elifd@mail.com");
+        patientJSON.put("password", "1234");
+        patientJSON.put("gender", "f");
+        patientJSON.put("gender", "f");
+        Patient p = new Patient(patientJSON);
+        patients = new Patients();
+        patients.registerPatient(p);
+        patients = new Patients();
+        patients.isLoginCorrect("dd@mail.com","1234");
+        assertEquals(false, false);
     }
 }
