@@ -26,8 +26,9 @@ public class Patient implements JSONConvertable{
         this.symptoms = new ArrayList<>();
     }
 
-    public void addSymptom(DailySymptom symptom){
+    public boolean addSymptom(DailySymptom symptom){
         symptoms.add(symptom);
+        return true;
     }
 
     public void removeSymptom(DailySymptom symptom){

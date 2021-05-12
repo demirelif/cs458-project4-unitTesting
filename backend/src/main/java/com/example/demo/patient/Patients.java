@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class Patients implements JSONConvertable {
     static Patients instance;
-    public List<Patient> patients;
+    public final List<Patient> patients;
 
     private Patients() {
         patients = new ArrayList<>();
@@ -25,6 +25,11 @@ public class Patients implements JSONConvertable {
     public Optional<Patient> getPatient(String email, String password) {
         return patients.stream().filter(e-> e.email.equals(email) && e.password.equals(password)).findFirst();
     }
+
+    public Optional<Patient> getPatient(String email) {
+        return patients.stream().filter(e-> e.email.equals(email)).findFirst();
+    }
+
 
     public boolean registerPatient(Patient patient) {
         if (new PatientValidity(patient).checkPatientValidity()) {

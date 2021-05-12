@@ -3,8 +3,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.Entity;
-
 public class AuthResponse {
     boolean auth;
     String message;
