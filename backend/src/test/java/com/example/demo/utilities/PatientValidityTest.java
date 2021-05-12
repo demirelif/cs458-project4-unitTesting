@@ -39,6 +39,6 @@ class PatientValidityTest {
         Patient p = new Patient(patientJSON);
         patientValidity = new PatientValidity(p);
         patientValidity.checkPatientValidity();
-        assert(true);
+        assertEquals(true, patientValidity.checkPatientValidity());
     }
 }
