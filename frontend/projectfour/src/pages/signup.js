@@ -31,7 +31,7 @@ const SignUp = () => {
         setConfirmLoading(true);
         const formData = formRef.current.getFieldsValue()
         //async bi request at, bekle
-        axios.put('http://localhost:8080/api/patient/signup',{
+        axios.post('http://localhost:8080/api/patient/signup',{
             name: formData.name,
             surname: formData.surname,
             gender: formData.gender,
