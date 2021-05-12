@@ -1,22 +1,24 @@
-import React,{useContext} from 'react';
-import {Context} from '../Context'
+import React, { useContext } from 'react';
+import { Context } from '../Context'
 import Header from '../components/header.js'
 import { Form, Input, Button, Checkbox, Select, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
+import { Redirect } from 'react-router';
 const { Option } = Select;
 
 
 const SignIn = () => {
     const [form] = Form.useForm();
-    
+
     const [context, setContext] = useContext(Context);
 
     const onFinish = (values) => {
         console.log('Success:', values);
-        if(values.username === "artun" && values.password === "123123"){
-            setContext({"authed":true})
-        }else{
-            setContext({"authed":false})
+        if (values.username === "artun" && values.password === "123123") {
+            setContext({ "authed": true });
+            console.log("WIUU");
+        } else {
+            setContext({ "authed": false });
         }
         console.log(context);
     };
@@ -32,6 +34,9 @@ const SignIn = () => {
 
     return (
         <div className="signin-wrapper">
+            {context.authed &&
+                    <Redirect to="/entersymptoms" />
+            }
             <Form {...layout}
                 name="basic"
                 initialValues={{ remember: true }}
