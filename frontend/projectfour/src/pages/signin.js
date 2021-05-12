@@ -31,6 +31,7 @@ const SignIn = () => {
     };
 
     const onFinish = (values) => {
+        setModalText("")
         setVisible(true);
         setConfirmLoading(true);
         const fields = formRef.current.getFieldsValue()
@@ -45,11 +46,11 @@ const SignIn = () => {
                     setContext({ "authed": false });
                     setModalText(response.data.message);
                 }
-                setTimeout(() => {
-                    setConfirmLoading(false);
-                }, 2000)
+                setConfirmLoading(false);
             }).catch(function (error) {
                 console.log(error);
+                setConfirmLoading(false);
+                setModalText("Connection Error")
             });
         //on get response
     };

@@ -1,12 +1,13 @@
-import React, {useState, setContext} from 'react';
+import React, {useState, setContext, useRef} from 'react';
 import Header from '../components/header.js'
 import { Form, Input, Button, Modal, Select, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 import './signup.css'
+import axios from 'axios';
 const { Option } = Select;
 
 const SignUp = () => {
-    const [form] = Form.useForm();
+    const formRef = useRef(null)
 
     const responseMockup = {signed:false,
         message: "Hatanin sebebi maildir"} 
@@ -25,15 +26,31 @@ const SignUp = () => {
     };
 
     const onFinish = (values) => {
+        setModalText("")
         setVisible(true);
         setConfirmLoading(true);
+        const formData = formRef.current.getFieldsValue()
         //async bi request at, bekle
+        axios.put('http://localhost:8080/api/patient/signup',{
+            name: formData.name,
+            surname: formData.surname,
+            gender: formData.gender,
+            age:formData.user.age,
+            password:formData.password,
+            email:formData.email
+        }).then(response=>{
+            if (response.data.signed) {
+                setModalText("Successfully signed in");
+            } else {
+                setModalText(responseMockup.message);
+            }
+            setConfirmLoading(false);
+        }).catch((e)=>{
+            console.log(e)
+            setConfirmLoading(false);
+            setModalText("Connection Error")
+        })
         //on get response
-        if (responseMockup.signed) {
-            setModalText("Successfully signed in");
-        } else {
-            setModalText(responseMockup.message);
-        }
     };
 
     const onGenderChange = (value) => {
@@ -58,7 +75,7 @@ const SignUp = () => {
                 name="basic"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-
+                ref={formRef}
             >
                  <Form.Item
                     label="Email"
