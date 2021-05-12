@@ -44,6 +44,14 @@ const SignUp = () => {
                 onFinishFailed={onFinishFailed}
 
             >
+                 <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[{ type: 'email', required: true, message: 'Please input your email!' }]}
+                >
+                    <Input />
+                </Form.Item>
+
                 <Form.Item
                     label="Username"
                     name="username"
@@ -76,13 +84,13 @@ const SignUp = () => {
                     <Input />
                 </Form.Item>
 
-                <Form.Item name={['user', 'age']} label="Age" rules={[{ type: 'number', min: 0, max: 99 }]}>
+                <Form.Item name={['user', 'age']} label="Age" rules={[{ required:true,type: 'number', min: 0, max: 99 }]}>
                     <InputNumber />
                 </Form.Item>
 
                 <Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
                     <Select
-                        placeholder="Select a option and change input text above"
+                        placeholder="Please select your gender"
                         onChange={onGenderChange}
                         allowClear
                     >

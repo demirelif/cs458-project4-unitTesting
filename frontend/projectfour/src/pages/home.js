@@ -1,9 +1,13 @@
 import React from 'react';
 import './home.css'
+import CovidImage from '../static/cvd19.jpg'
   
 const Home = () => {
     return(
-      <h1 className="welcome-text">Welcome to the website of CS458 - Project 4</h1>
+      <>
+      <img src={CovidImage}/>
+      <h1 className="welcome-text">Welcome to COVID Tracking Portal</h1>
+      </>
     )
 }
 

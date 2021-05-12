@@ -8,6 +8,7 @@ const EnterSymptoms = () => {
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
+        // values["date-picker"]["_d"]
         console.log('Success:', values);
     };
 
@@ -30,18 +31,21 @@ const EnterSymptoms = () => {
 
             >
                 <Form.Item name="date-picker" label="DatePicker">
-                    <DatePicker />
+                    <DatePicker format="DD-MM-YYYY" />
                 </Form.Item>
 
                 <Form.Item
                     name="select-multiple"
-                    label="Select[multiple]"
-                    rules={[{ required: true, message: 'Please select your favourite colors!', type: 'array' }]}
+                    label="Select [multiple]"
+                    rules={[{ required: true, message: 'Please select your symptoms', type: 'array' }]}
                 >
-                    <Select mode="multiple" placeholder="Please select favourite colors">
-                        <Option value="red">Red</Option>
-                        <Option value="green">Green</Option>
-                        <Option value="blue">Blue</Option>
+                    <Select mode="multiple" placeholder="Please select your symptoms">
+                        <Option value="fever">fever</Option>
+                        <Option value="cough">cough</Option>
+                        <Option value="muscle">muscle pain</Option>
+                        <Option value="nausea">nausea</Option>
+                        <Option value="vomiting">vomiting</Option>
+                        <Option value="diarrhea">diarrhea</Option>
                     </Select>
                 </Form.Item>
 
