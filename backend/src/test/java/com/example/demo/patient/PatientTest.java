@@ -81,6 +81,6 @@ class PatientTest {
         symptoms.add(Symptom.FEVER);
         symptoms.add(Symptom.NAUSEA);
         patient.addSymptom(new DailySymptom("03.04.2021", symptoms));
-        assertEquals(true,true);
+        assertEquals(true,patient.addSymptom(new DailySymptom("03.04.2021", symptoms)));
     }
 }
