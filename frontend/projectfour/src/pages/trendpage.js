@@ -14,6 +14,7 @@ const TrendPage = () => {
   const [modalText, setModalText] = useState("");
 
   const [graphdata, setGraphdata] = useState([])
+  const [responsedata,setResponsedata] = useState(null);
 
   const data = React.useMemo(
     () =>
@@ -30,7 +31,8 @@ const TrendPage = () => {
     //async bi request at, bekle
     axios.get(`http://localhost:8080/api/patient/symptoms?email=${context.authed_email}`)
       .then((response) => {
-        setGraphdata(response.data);
+        setResponsedata(response.data)
+        setGraphdata(_.chain(response.data).orderBy((a) => new Date(a.date), ['asc']).map(a => { return { x: new Date(a.date).toDateString(), y: a.score } }).value());
       }).catch(function (error) {
         console.log(error);
       });
@@ -44,6 +46,29 @@ const TrendPage = () => {
     ],
     []
   )
+
+    const HealthMessage = () => {
+      if(responsedata){
+          if(responsedata.length > 1){
+            const scorestate = responsedata[responsedata.length - 1].score - responsedata[responsedata.length - 2].score;
+            let stateofthescore,statemessage;
+            if(scorestate > 0){
+              stateofthescore = "getting worse";
+              statemessage = "You'd better rest!";
+            }else if(scorestate == 0){
+              stateofthescore = "not getting better";
+              statemessage = "Try to treat yourself better!";
+            }else{
+              stateofthescore = "getting better";
+              statemessage = "Keep it up!";
+            }
+            return <p>Your last day score is {responsedata[responsedata.length - 1].score}. 
+            <br></br> Results state that you are {stateofthescore}. {statemessage}</p>
+          }else{
+            return <p>Not enough data for interpretation</p>
+          }
+      }
+    }
 
   const series = React.useMemo(
     () => ({
@@ -62,7 +87,9 @@ const TrendPage = () => {
         }}
       >
         {graphdata.length === 0 && <p style={{ textAlign: 'center' }}>No symptom data can be found.</p>}
-        {graphdata.length !== 0 && <> <Chart data={data} series={series} axes={axes} /> <p style={{ textAlign: 'center', margin: '2rem' }}>Your last day health score is 2. You are getting better.</p></>}
+        {graphdata.length !== 0 && <> <Chart data={data} series={series} axes={axes} /> <p style={{ textAlign: 'center', margin: '2rem' }}>
+          <HealthMessage/>
+      </p></>}
       </div>
     </div>
   )
