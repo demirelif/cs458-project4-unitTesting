@@ -1,13 +1,17 @@
-import React, {useState, setContext, useRef} from 'react';
+import React, {useState,useContext, setContext, useRef} from 'react';
 import Header from '../components/header.js'
 import { Form, Input, Button, Modal, Select, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
 import './signup.css'
 import axios from 'axios';
+import { Redirect } from 'react-router';
+import { Context } from '../Context'
 const { Option } = Select;
 
 const SignUp = () => {
     const formRef = useRef(null)
+
+    const [context, setContext] = useContext(Context);
 
     const responseMockup = {signed:false,
         message: "Hatanin sebebi maildir"} 
@@ -40,7 +44,8 @@ const SignUp = () => {
             email:formData.email
         }).then(response=>{
             if (response.data.signed) {
-                setModalText("Successfully signed in");
+                setContext({ "authed": true, "authed_email":formData.email });
+                setModalText("Successfully signed up");
             } else {
                 setModalText(responseMockup.message);
             }
@@ -71,6 +76,9 @@ const SignUp = () => {
                 tex>
                 <p>{modalText}</p>
             </Modal>
+            {context.authed &&
+                <Redirect to="/entersymptoms" />
+            }
             <Form {...layout}
                 name="basic"
                 initialValues={{ remember: true }}

@@ -32,7 +32,7 @@ const TrendPage = () => {
     axios.get(`http://localhost:8080/api/patient/symptoms?email=${context.authed_email}`)
       .then((response) => {
         setResponsedata(response.data)
-        setGraphdata(_.chain(response.data).orderBy((a) => new Date(a.date), ['asc']).map(a => { return { x: new Date(a.date).toDateString(), y: a.score } }).value());
+        setGraphdata(_.chain(response.data).orderBy((a) => new Date(a.date), ['asc']).map(a => { return { x: new Date(a.date).toDateString(), y: a.score } }).add({x:"",y: 0}).value());
       }).catch(function (error) {
         console.log(error);
       });
