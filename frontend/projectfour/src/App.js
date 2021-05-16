@@ -16,7 +16,7 @@ import { Context } from "./Context.js";
 
 const App = () => {
   // const [context, setContext] = useState({"authed":false});
-  const [context, setContext] = useState({"authed":true, "authed_email":"curaartun@gmail.com"});
+  const [context, setContext] = useState({"authed":false});
   return (
     <Context.Provider value={[context, setContext]}>
       <Router>
